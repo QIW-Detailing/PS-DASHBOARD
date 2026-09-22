@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>Quality Ironworks | Field Operations Portal</title>
+  <meta name="description" content="Unified field portal for Quality Ironworks: Manual Material Requests and Field Dimension Dispatcher suite.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+  <!-- Custom Launcher Styles -->
+  <link rel="stylesheet" href="launcher.css">
+</head>
+<body>
+
+  <!-- App Header (Visible in Hub View) -->
+  <header class="portal-header" id="portalHeader">
+    <div class="header-inner">
+      <div class="brand-group" onclick="window.qiwPortal.showHub()">
+        <div class="brand-logo-wrap">
+          <!-- Official Quality Ironworks SVG Icon -->
+          <svg class="brand-logo-img" viewBox="0 0 100 100" width="34" height="34" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="qiwSteelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#ff7b00" />
+                <stop offset="100%" stop-color="#cc5200" />
+              </linearGradient>
+            </defs>
+            <path d="M 15,10 H 85 V 25 H 58 V 75 H 85 V 90 H 15 V 75 H 42 V 25 H 15 Z" fill="url(#qiwSteelGrad)" />
+            <circle cx="50" cy="50" r="18" fill="none" stroke="#ffffff" stroke-width="4" />
+            <line x1="60" y1="60" x2="72" y2="72" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="brand-text-wrap">
+          <div class="brand-title">
+            QUALITY IRONWORKS
+            <span class="brand-badge">Field Operations</span>
+          </div>
+          <div class="brand-subtitle">Unified Operations Portal</div>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button type="button" class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle visual theme">
+          <i class="ph-bold ph-sun"></i>
+          <span>Theme</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== VIEW 1: SELECTION HUB ==================== -->
+  <main class="hub-view" id="hubView">
+    
+    <!-- Hero Section -->
+    <div class="hub-hero">
+      <div class="hero-pill">
+        <i class="ph-bold ph-lightning"></i>
+        <span>Quality Ironworks Field Suite</span>
+      </div>
+      <h1 class="hero-title">
+        Select a tool to <span>start your field process</span>
+      </h1>
+      <p class="hero-desc">
+        Welcome to the QIW unified operations hub. Choose between submitting field material order sheets or capturing and dispatching annotated field dimensions.
+      </p>
+    </div>
+
+    <!-- Application Selection Grid (The 2 Core Apps) -->
+    <div class="cards-grid">
+      
+      <!-- Option Card 1: QIW Manual Request -->
+      <article class="app-card card-manual" id="cardManual" tabindex="0" role="button" aria-label="Open QIW Manual Material Request">
+        <div class="card-header-row">
+          <div class="card-icon-badge">
+            <i class="ph-duotone ph-clipboard-text"></i>
+          </div>
+          <span class="card-tag">Material Ordering & Drafting</span>
+        </div>
+
+        <h2 class="card-title">QIW Manual Request</h2>
+        <div class="card-subtitle">Field Material Request &amp; Order Sheet Portal</div>
+        <p class="card-desc">
+          Generate structured steel material requests directly from the field. Includes interactive sketch canvas, standard shapes catalog, live PDF preview, and automated email dispatch.
+        </p>
+
+        <ul class="feature-list">
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Job identification, priority &amp; required delivery dates</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Interactive drafting area (pencil, eraser, clean grid)</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Itemized steel BOM table (Angles, Beams, Tubes, Flats)</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Instant PDF order sheet &amp; Excel FBOM generation</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Direct Outlook attachment or downloadable .eml draft</span>
+          </li>
+        </ul>
+
+        <button type="button" class="card-action-btn btn-start-manual" id="btnLaunchManual">
+          <span>Start Manual Request</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </button>
+      </article>
+
+      <!-- Option Card 2: QIW Field Dims Dispenser -->
+      <article class="app-card card-dims" id="cardDims" tabindex="0" role="button" aria-label="Open QIW Field Dimension Dispenser">
+        <div class="card-header-row">
+          <div class="card-icon-badge">
+            <i class="ph-duotone ph-ruler"></i>
+          </div>
+          <span class="card-tag">Site Dimensions &amp; Photo Markup</span>
+        </div>
+
+        <h2 class="card-title">QIW Field Dims Dispenser</h2>
+        <div class="card-subtitle">Field Dimension &amp; Photo Markup Dispatcher</div>
+        <p class="card-desc">
+          Package and dispatch site survey records, field dimensions, and marked-up job photos. Features built-in touch drawing tools, automated ZIP packaging, and one-tap Outlook/Gmail sharing.
+        </p>
+
+        <ul class="feature-list">
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Job Name, Scope Category, and Requested Ship Date</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>One-tap camera photo capture &amp; document dropzone</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Photo Markup Studio (Dimension arrows, text, boxes, pen)</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Automated &lt;Job&gt; - &lt;Category&gt;.zip archive packaging</span>
+          </li>
+          <li class="feature-item">
+            <span class="feature-check"><i class="ph-bold ph-check"></i></span>
+            <span>Native Mobile Share Sheet (Outlook / Gmail) &amp; .eml drafts</span>
+          </li>
+        </ul>
+
+        <button type="button" class="card-action-btn btn-start-dims" id="btnLaunchDims">
+          <span>Start Field Dims</span>
+          <i class="ph-bold ph-arrow-right"></i>
+        </button>
+      </article>
+
+    </div>
+
+    <!-- Bottom Information Row -->
+    <div class="hub-footer-info">
+      <div class="info-left">
+        <i class="ph-duotone ph-shield-check info-icon"></i>
+        <div>
+          <div class="info-title">Quality Ironworks Integrated Field Suite</div>
+          <div class="info-text">Both tools operate 100% locally on your workstation, laptop, tablet, or smartphone.</div>
+        </div>
+      </div>
+      <div class="info-links">
+        <a href="manual-request/index.html" target="_blank" class="info-link-btn" title="Open Manual Request directly">
+          <i class="ph-bold ph-arrow-square-out"></i> Manual Request Standalone
+        </a>
+        <a href="field-dims/index.html" target="_blank" class="info-link-btn" title="Open Field Dims directly">
+          <i class="ph-bold ph-arrow-square-out"></i> Field Dims Standalone
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== VIEW 2: ACTIVE APP CONTAINER ==================== -->
+  <section class="app-view-container" id="appViewContainer">
+    
+    <!-- Top Switcher & Navigation Bar -->
+    <nav class="portal-switcher-bar" id="portalSwitcherBar">
+      <div class="switcher-left">
+        <button type="button" class="btn-back-hub" id="btnBackHub" title="Back to Portal Selection Hub">
+          <i class="ph-bold ph-house"></i>
+          <span>Portal Hub</span>
+        </button>
+        <div class="active-app-indicator" id="activeAppBadge">
+          <i class="ph-bold ph-clipboard-text"></i>
+          QIW Manual Request
+        </div>
+      </div>
+
+      <!-- Quick Switcher Tabs -->
+      <div class="switcher-tabs">
+        <button type="button" class="switcher-tab-btn" id="tabBtnManual">
+          <i class="ph-bold ph-clipboard-text"></i>
+          <span>Manual Request</span>
+        </button>
+        <button type="button" class="switcher-tab-btn" id="tabBtnDims">
+          <i class="ph-bold ph-ruler"></i>
+          <span>Field Dims Dispenser</span>
+        </button>
+      </div>
+
+      <div class="switcher-right">
+        <button type="button" class="btn-switcher-action" id="btnOpenNewTab" title="Open active tool in new browser tab">
+          <i class="ph-bold ph-arrows-out-simple"></i>
+          <span>New Tab</span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Embedded Application Frames (Preserves form data between tab switches) -->
+    <div class="app-frame-viewport">
+      <iframe 
+        id="frameManual" 
+        class="app-iframe" 
+        title="QIW Manual Material Request Portal"
+        allow="clipboard-write; clipboard-read; download">
+      </iframe>
+      <iframe 
+        id="frameDims" 
+        class="app-iframe" 
+        title="QIW Field Dimension Dispatcher"
+        allow="camera; microphone; clipboard-write; clipboard-read; download">
+      </iframe>
+    </div>
+
+  </section>
+
+  <!-- Application Switcher Script -->
+  <script src="launcher.js"></script>
+</body>
+</html>

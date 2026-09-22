@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <title>QIW- Field dimention dispatcher</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=20260903_v10">
+</head>
+<body>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="header-brand">
+        <div class="header-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+        </div>
+        <div class="header-titles">
+          <h1>QIW- Field dimention dispatcher</h1>
+          <p>Package & Share to Outlook / Gmail</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" class="btn-header" id="btnResetForm" title="Clear all fields">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          Reset
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Wrapper -->
+  <main class="main-wrapper">
+
+    <!-- Mobile / Tablet Network Banner -->
+    {% if host_ip %}
+    <div class="wifi-banner">
+      <div class="wifi-banner-content">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+          <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+          <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+          <line x1="12" y1="20" x2="12.01" y2="20"></line>
+        </svg>
+        <div>
+          <strong>Mobile / Tablet Access:</strong> Open <code>http://{{ host_ip }}:{{ port }}</code> on your device Wi-Fi.
+        </div>
+      </div>
+    </div>
+    {% endif %}
+
+    <form id="jobDispatchForm" onsubmit="return false;" novalidate>
+      
+      <!-- Card 1: Required Job Info -->
+      <section class="form-card">
+        <div class="card-title-row">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            Job Identification
+          </div>
+          <span class="badge-required">* Required Fields</span>
+        </div>
+
+        <!-- Job Name -->
+        <div class="form-group">
+          <label for="jobName">Job Name <span class="star">*</span></label>
+          <input type="text" id="jobName" placeholder="e.g. Downtown Plaza Tower" autocomplete="off" required>
+          <div class="error-text" id="jobNameError"></div>
+          <div class="input-hint">Used as the first part of your ZIP file and Outlook subject.</div>
+        </div>
+
+        <!-- Scope Item -->
+        <div class="form-group">
+          <label for="category">Scope Item <span class="star">*</span></label>
+          <input type="text" id="category" placeholder="e.g. Main Entrance Canopy, Stair Railings, Storefront..." autocomplete="off" required>
+          <div class="error-text" id="categoryError"></div>
+          <div class="input-hint">Specify what item or area the field dimensions are for.</div>
+        </div>
+
+        <!-- Requested Ship Date -->
+        <div class="form-group">
+          <label for="shipDate">Requested Ship Date <span class="star">*</span></label>
+          <input type="date" id="shipDate" required>
+          <div class="error-text" id="shipDateError"></div>
+        </div>
+      </section>
+
+      <!-- Card 2: Additional Notes (Optional) -->
+      <section class="form-card">
+        <div class="card-title-row">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Additional Notes
+          </div>
+          <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 500;">Optional</span>
+        </div>
+
+        <div class="form-group">
+          <label for="notes">Special Instructions & Remarks</label>
+          <textarea id="notes" rows="3" placeholder="Enter any extra details, dimensions clarification, site notes, or instructions for the team..."></textarea>
+          <div class="input-hint">Will be included in the Outlook / Gmail email summary.</div>
+        </div>
+      </section>
+
+      <!-- Card 3: File Uploads & Photos -->
+      <section class="form-card">
+        <div class="card-title-row">
+          <div class="card-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+            </svg>
+            Attachments & Photos
+          </div>
+          <span class="file-list-count" id="fileCountBadge">0 files</span>
+        </div>
+
+        <!-- Hidden File Inputs -->
+        <input type="file" id="fileInputAll" multiple style="display: none;">
+        <input type="file" id="fileInputCamera" accept="image/*" capture="environment" multiple style="display: none;">
+
+        <!-- Drag & Drop Zone -->
+        <div class="upload-zone" id="dropZone">
+          <div class="upload-zone-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="17 8 12 3 7 8"></polyline>
+              <line x1="12" y1="3" x2="12" y2="15"></line>
+            </svg>
+          </div>
+          <div class="upload-zone-text">Tap to select files or drop them here</div>
+          <div class="upload-zone-sub">Supports PDFs, field photos, CAD drawings, spreadsheets, etc.</div>
+        </div>
+
+        <!-- Mobile Quick-Action Buttons (Camera & Documents) -->
+        <div class="mobile-upload-actions">
+          <button type="button" class="btn-upload-choice" id="btnCameraUpload">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+              <circle cx="12" cy="13" r="4"></circle>
+            </svg>
+            Take Photo / Camera
+          </button>
+          <button type="button" class="btn-upload-choice" id="btnBrowseUpload">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            Browse Documents
+          </button>
+        </div>
+
+        <!-- Attached Files List -->
+        <div class="file-list-header">
+          <span>Attached Files</span>
+        </div>
+        <div class="file-list" id="fileListContainer">
+          <div class="file-empty-state">No files attached yet. Photos, PDFs, and drawings will appear here.</div>
+        </div>
+      </section>
+
+    </form>
+  </main>
+
+  <!-- Sticky Bottom Bar for Mobile & Tablet -->
+  <aside class="sticky-bottom-bar">
+    <div class="bottom-bar-container">
+      <button type="button" class="btn-secondary-action" id="btnBottomDownloadZip" title="Download ZIP archive to device">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        Download ZIP
+      </button>
+      <button type="button" class="btn-primary-action" id="btnShareEmail" title="Select app (Outlook, Gmail, Teams) to share ZIP">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="18" cy="5" r="3"></circle>
+          <circle cx="6" cy="12" r="3"></circle>
+          <circle cx="18" cy="19" r="3"></circle>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+        Share ZIP to Apps
+      </button>
+    </div>
+  </aside>
+
+  <!-- Loading Screen Overlay -->
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-title" id="loadingTitle">Compressing Files...</div>
+    <div class="loading-subtitle" id="loadingSubtitle">Packaging files into ZIP</div>
+  </div>
+
+  <!-- Export Options Modal (Only 2 options: Share to Apps or Download ZIP) -->
+  <div class="modal" id="exportModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          ZIP Archive Ready
+        </h3>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- ZIP File Confirmation Box -->
+        <div class="zip-badge-box">
+          <div class="zip-badge-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="21 8 21 21 3 21 3 8"></polyline>
+              <rect x="1" y="3" width="22" height="5"></rect>
+              <line x1="10" y1="12" x2="14" y2="12"></line>
+            </svg>
+          </div>
+          <div class="zip-details">
+            <div class="zip-name" id="modalZipName">Job - Category.zip</div>
+            <div class="zip-meta" id="modalZipMeta">0 files &bull; 0 KB</div>
+          </div>
+        </div>
+
+        <!-- Export Buttons: ONLY TWO BUTTONS -->
+        <div class="export-options-list">
+          <button type="button" class="btn-export-option primary-option" id="btnModalShare">
+            <div class="export-option-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </div>
+            <div class="export-option-content">
+              <div class="export-option-title">Share to Apps (Outlook / Gmail)</div>
+              <div class="export-option-desc">Open apps on your mobile or tablet to share the ZIP file</div>
+            </div>
+          </button>
+
+          <button type="button" class="btn-export-option" id="btnModalDownloadZip">
+            <div class="export-option-icon" style="background: #f0fdf4; color: #16a34a;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </div>
+            <div class="export-option-content">
+              <div class="export-option-title">Download ZIP File</div>
+              <div class="export-option-desc">Save the compressed archive directly to your device</div>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Photo Markup & Annotation Studio Modal -->
+  <div class="markup-modal" id="markupModal">
+    <div class="markup-header">
+      <div class="markup-header-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#60a5fa" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 20h9"></path>
+          <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+        </svg>
+        <span id="markupPhotoTitle">Photo Markup</span>
+      </div>
+      <div class="markup-header-actions">
+        <button type="button" class="btn-markup-action" id="btnMarkupUndo" title="Undo last markup">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="1 4 1 10 7 10"></polyline>
+            <path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
+          </svg>
+          Undo
+        </button>
+        <button type="button" class="btn-markup-action" id="btnMarkupClear" title="Clear all marks">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="3 6 5 6 21 6"></polyline>
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+          </svg>
+          Clear
+        </button>
+        <button type="button" class="btn-markup-action btn-save" id="btnMarkupSave">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+            <polyline points="17 21 17 13 7 13 7 21"></polyline>
+            <polyline points="7 3 7 8 15 8"></polyline>
+          </svg>
+          Save & Apply
+        </button>
+        <button type="button" class="btn-markup-action" id="btnMarkupClose" title="Cancel without saving">✕</button>
+      </div>
+    </div>
+
+    <!-- Toolbar: Tools, Colors, Stroke -->
+    <div class="markup-toolbar">
+      <!-- Tools -->
+      <div class="markup-tool-group">
+        <span class="tool-label">Tool:</span>
+        <button type="button" class="markup-tool-btn active" data-tool="pen" id="toolPen" title="Freehand Pen">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+          Pen
+        </button>
+        <button type="button" class="markup-tool-btn" data-tool="arrow" id="toolArrow" title="Dimension Arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+          Arrow
+        </button>
+        <button type="button" class="markup-tool-btn" data-tool="text" id="toolText" title="Add Text / Dimension Label">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" y1="20" x2="15" y2="20"></line><line x1="12" y1="4" x2="12" y2="20"></line></svg>
+          Text / Dims
+        </button>
+        <button type="button" class="markup-tool-btn" data-tool="box" id="toolBox" title="Rectangle Box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect></svg>
+          Box
+        </button>
+        <button type="button" class="markup-tool-btn" data-tool="eraser" id="toolEraser" title="Eraser (Erase marks)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13.5l-6 6a2.121 2.121 0 0 1-3 0l-7-7a2.121 2.121 0 0 1 0-3l9-9a2.121 2.121 0 0 1 3 0l7 7a2.121 2.121 0 0 1 0 3z"></path><path d="M6 18h14"></path></svg>
+          Eraser
+        </button>
+      </div>
+
+      <!-- Color Swatches -->
+      <div class="markup-tool-group">
+        <span class="tool-label">Color:</span>
+        <div class="markup-colors">
+          <button type="button" class="color-swatch active" data-color="#ef4444" style="background: #ef4444;" title="Red"></button>
+          <button type="button" class="color-swatch" data-color="#eab308" style="background: #eab308;" title="Yellow"></button>
+          <button type="button" class="color-swatch" data-color="#10b981" style="background: #10b981;" title="Green"></button>
+          <button type="button" class="color-swatch" data-color="#3b82f6" style="background: #3b82f6;" title="Blue"></button>
+          <button type="button" class="color-swatch" data-color="#ffffff" style="background: #ffffff;" title="White"></button>
+          <button type="button" class="color-swatch" data-color="#000000" style="background: #000000;" title="Black"></button>
+        </div>
+      </div>
+
+      <!-- Stroke Width -->
+      <div class="markup-tool-group">
+        <span class="tool-label">Size:</span>
+        <div class="stroke-sizes">
+          <button type="button" class="stroke-btn" data-size="3">Fine</button>
+          <button type="button" class="stroke-btn active" data-size="6">Med</button>
+          <button type="button" class="stroke-btn" data-size="12">Bold</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Canvas Workspace -->
+    <div class="markup-canvas-wrapper" id="markupCanvasWrapper">
+      <canvas id="markupCanvas"></canvas>
+    </div>
+
+    <div class="markup-instructions" id="markupInstructionText">
+      ✏️ Draw with your finger or stylus. Tap "Text / Dims" to stamp dimension measurements.
+    </div>
+
+    <!-- Dedicated Save & Cancel Action Bar -->
+    <div class="markup-bottom-bar">
+      <button type="button" class="btn-markup-bottom-cancel" id="btnMarkupBottomCancel">
+        ✕ Cancel
+      </button>
+      <button type="button" class="btn-markup-bottom-save" id="btnMarkupBottomSave">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        Save Changes to Photo
+      </button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Offline Vendored JSZip -->
+  <script src="{{ url_for('static', filename='js/jszip.min.js') }}"></script>
+  <!-- Application Logic -->
+  <script src="{{ url_for('static', filename='js/app.js') }}?v=20260903_v10"></script>
+</body>
+</html>
