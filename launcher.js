@@ -185,6 +185,21 @@
       cardDims.addEventListener('click', () => launchApp('dims'));
     }
 
+    const btnLaunchSheets = document.getElementById('btnLaunchSheets');
+    const cardSheets = document.getElementById('cardSheets');
+    const SHEET_VIEWER_URL = 'https://qiw-sheet-viewer.qiworks.workers.dev/';
+    if (btnLaunchSheets) {
+      btnLaunchSheets.addEventListener('click', (e) => {
+        e.stopPropagation();
+        window.open(SHEET_VIEWER_URL, '_blank');
+      });
+    }
+    if (cardSheets) {
+      cardSheets.addEventListener('click', () => {
+        window.open(SHEET_VIEWER_URL, '_blank');
+      });
+    }
+
     // Back to hub button
     if (btnBackHub) {
       btnBackHub.addEventListener('click', () => showHub(true));
