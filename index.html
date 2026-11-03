@@ -7,6 +7,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <title>Quality Ironworks | Field Operations Portal</title>
   <meta name="description" content="Unified field portal for Quality Ironworks: Manual Material Requests and Field Dimension Dispatcher suite.">
+  <link rel="icon" type="image/png" href="logo.png">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,25 +25,14 @@
   <!-- App Header (Visible in Hub View) -->
   <header class="portal-header" id="portalHeader">
     <div class="header-inner">
-      <div class="brand-group" onclick="window.qiwPortal.showHub()">
+      <div class="brand-group" onclick="window.qiwPortal.showHub()" title="Quality Ironworks, Inc.">
         <div class="brand-logo-wrap">
-          <!-- Official Quality Ironworks SVG Icon -->
-          <svg class="brand-logo-img" viewBox="0 0 100 100" width="34" height="34" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <linearGradient id="qiwSteelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#ff7b00" />
-                <stop offset="100%" stop-color="#cc5200" />
-              </linearGradient>
-            </defs>
-            <path d="M 15,10 H 85 V 25 H 58 V 75 H 85 V 90 H 15 V 75 H 42 V 25 H 15 Z" fill="url(#qiwSteelGrad)" />
-            <circle cx="50" cy="50" r="18" fill="none" stroke="#ffffff" stroke-width="4" />
-            <line x1="60" y1="60" x2="72" y2="72" stroke="#ffffff" stroke-width="4" stroke-linecap="round" />
-          </svg>
+          <img src="logo.png" alt="Quality Ironworks, Inc." class="brand-logo-img" />
         </div>
         <div class="brand-text-wrap">
           <div class="brand-title">
-            QUALITY IRONWORKS
-            <span class="brand-badge">Field Operations</span>
+            OPERATIONS CONSOLE
+            <span class="brand-badge">PS-DASHBOARD</span>
           </div>
           <div class="brand-subtitle">Unified Operations Portal</div>
         </div>
